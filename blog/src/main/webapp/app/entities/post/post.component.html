@@ -1,0 +1,43 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="blogApp.post.home.title">Posts</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-post" [routerLink]="['/post/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="blogApp.post.home.createLabel">
+            Create new Post
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="posts?.length === 0">
+        <span jhiTranslate="blogApp.post.home.notFound">No posts found</span>
+    </div>
+    <div class="table-responsive" *ngIf="posts?.length > 0">
+        <div infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <div *ngFor="let post of posts; trackBy: trackId">
+                <a [routerLink]="['/post', post.id, 'view' ]">
+                    <h2>{{post.title}}</h2>
+                </a>
+                <small>Posted on {{post.date | date: 'short'}} by {{post.blog.user.firstName}}</small>
+                <div [innerHTML]="post.content"></div>
+                <div class="btn-group mb-2 mt-1">
+                    <button type="submit"
+                            [routerLink]="['/post', post.id, 'edit']"
+                            class="btn btn-primary btn-sm">
+                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                        <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+                    <button type="submit"
+                            [routerLink]="['/', 'post', { outlets: { popup: post.id + '/delete'} }]"
+                            replaceUrl="true"
+                            queryParamsHandling="merge"
+                            class="btn btn-danger btn-sm">
+                        <fa-icon [icon]="'times'"></fa-icon>
+                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
