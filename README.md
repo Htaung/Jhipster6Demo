@@ -12,3 +12,10 @@ It appears you’re reading this document on GitHub. If you want a prettier view
 
 Using Mysql
 1st need to create DB in mysql and change the config in java
+
+
+To Run in Windows
+mvnw.cmd
+
+To Run in Linux
+./mvnw
